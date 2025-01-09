@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/07 03:13:25 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/09 07:42:29 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,22 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+typedef struct s_philosopher {
+	int 			id;
+	long 			last_meal;
+	pthread_mutex_t *left_fork;
+	pthread_mutex_t *right_fork;
+} t_philosopher;
 
-typedef struct s_philo
-{
-	pthread_t		philo_id;	
-	int				philo_num;
+typedef struct s_table {
+	int				num_philosophers;
+	int				meals;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				meals;
-} s_philo;
+	pthread_mutex_t	*forks;
+	t_philosopher	*philosophers;
+} t_table;
 
 int	check_num(char *argv);
 int	ft_atoi(char *str);

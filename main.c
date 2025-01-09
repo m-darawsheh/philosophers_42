@@ -6,46 +6,38 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/07 03:23:42 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/09 07:40:39 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philo(s_philo *philo, int argc, char **argv)
+void	init_philo(t_table *table, int argc, char **argv)
 {
-	philo->philo_num = ft_atoi(argv[1]);
-	philo->time_to_die = ft_atoi(argv[2]);
-	philo->time_to_eat = ft_atoi(argv[3]);
-	philo->time_to_sleep = ft_atoi(argv[4]);
-	philo->meals = 0;
-	if (argc == 6)
-		philo->meals = ft_atoi(argv[5]);
-}
-
-void	creat_philosophers(s_philo *philo)
-{
-	int i;
-
-// int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
-
-
-	i = philo->philo_num;
-	while (i--)
+	table->num_philosophers = ft_atoi(argv[1]);
+	table->philosophers = malloc(sizeof(t_philosopher) * table->num_philosophers);
+	if(!table->philosophers)
 	{
-		// if (pthread_create(philo[i]->philo_id, NULL, &routine, &philo[i]) != 0)
-		// {
-		// 	printf("Error\n : pthread_create failed\n");
-		// 	return ;
-		// }
+		printf("Error\n : malloc failed\n");
+		return ;
 	}
-	
+	table->forks = malloc(sizeof(pthread_mutex_t) * table->num_philosophers);
+	if(!table->forks)
+	{
+		printf("Error\n : malloc failed\n");
+		return ;
+	}
+	table->time_to_die = ft_atoi(argv[2]);
+	table->time_to_eat = ft_atoi(argv[3]);
+	table->time_to_sleep = ft_atoi(argv[4]);
+	table->meals = 0;
+	if (argc == 6)
+		table->meals = ft_atoi(argv[5]);
 }
-
 
 int	main(int argc, char **argv)
 {
-	s_philo		philo;
+	t_table		table;
 	int			i;
 	
 	if (argc < 5 || argc > 6)
@@ -60,8 +52,7 @@ int	main(int argc, char **argv)
 			return (1);
 		i++;
 	}
-	memset(&philo, 0, sizeof(philo));
-	init_philo(&philo, argc, argv);
+	init_philo(&table, argc, argv);
 	
 	return (0);
 }
