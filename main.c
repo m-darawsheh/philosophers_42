@@ -6,13 +6,13 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/09 07:40:39 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:42:19 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philo(t_table *table, int argc, char **argv)
+void	init_args(t_table *table, int argc, char **argv)
 {
 	table->num_philosophers = ft_atoi(argv[1]);
 	table->philosophers = malloc(sizeof(t_philosopher) * table->num_philosophers);
@@ -52,7 +52,7 @@ int	main(int argc, char **argv)
 			return (1);
 		i++;
 	}
-	init_philo(&table, argc, argv);
+	init_args(&table, argc, argv);
 	
 	return (0);
 }

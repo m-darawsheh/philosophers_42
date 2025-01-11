@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/09 07:42:29 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:43:35 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <pthread.h>
 
 typedef struct s_philosopher {
+	pthread_t		philosopher;
 	int 			id;
 	long 			last_meal;
 	pthread_mutex_t *left_fork;
@@ -30,10 +31,10 @@ typedef struct s_philosopher {
 
 typedef struct s_table {
 	int				num_philosophers;
-	int				meals;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				meals;
 	pthread_mutex_t	*forks;
 	t_philosopher	*philosophers;
 } t_table;
