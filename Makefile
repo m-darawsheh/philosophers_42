@@ -1,12 +1,12 @@
 NAME = philo.a
 
-SRCS = main.c helper.c check_num.c
+SRCS = main.c helper.c check_num.c creat_philo.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

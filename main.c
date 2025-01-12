@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/11 16:42:19 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:46:00 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	init_args(&table, argc, argv);
+	creat_philo(&table);
 	
 	return (0);
 }
