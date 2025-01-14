@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/12 18:45:53 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:13:03 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,34 @@ int	get_time(void)
 // here we take the two forks
 void	ft_eat(t_philosopher *philo)
 {
-	printf("%d is eating\n", philo->id);
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(philo->right_fork);
+	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
+	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
+	printf("[%d] \n" , get_time() - philo->table->times_start);
+	printf("%d is eating\n", philo->id);
+	philo->init = get_time();
 	usleep(philo->table->time_to_eat * 1000);
-	philo->when_ate = get_time();
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	// philo->final =  get_time();
+	// philo->when_ate = philo->final - philo->init; 
 	// after usleep forks will be unlock
 }
 
 
 void	ft_sleep(t_philosopher *philo)
 {
-	printf("%d is sleeping\n", philo->id);
+	printf("%d\t" , get_time() - philo->table->times_start);
+	printf("philo id %d is sleeping\n", philo->id);
 	usleep(philo->table->time_to_sleep * 1000);
+	
 }
 
 void	ft_think(t_philosopher *philo)
 {
-	printf("%d is thinking\n", philo->id);
+	printf("%d\t" , get_time() - philo->table->times_start);
+	printf("philo id %d is thinking\n", philo->id);
 }
 
 // void pointer because when fucnition return null it mean success
@@ -76,10 +84,11 @@ void	init_data(t_table *table)
 	i = 0;
 	while(i < table->num_philosophers)
 	{
+		
 		table->philosophers[i].table = table;
 		table->philosophers[i].id = i + 1;
-		table->philosophers[i].left_fork = &table->forks[i];
 		table->philosophers[i].right_fork = &table->forks[(i + 1) % table->num_philosophers];
+		table->philosophers[i].left_fork = &table->forks[i];
 		table->philosophers[i].when_ate = 0;
 		i++;
 	}

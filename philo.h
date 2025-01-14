@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/12 18:29:15 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/14 12:50:51 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ typedef struct s_table t_table;
 
 typedef struct s_philosopher {
 	pthread_t		philosopher;
-	int 			id;
-	long 			when_ate;
+	int				id;
+	int				when_ate;
+	int				final;
+	int				init;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t *right_fork;
 	t_table			*table;
@@ -38,6 +40,7 @@ typedef struct s_table {
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meals;
+	int				times_start;
 	pthread_mutex_t	*forks;
 	t_philosopher	*philosophers;
 } t_table;
@@ -45,5 +48,6 @@ typedef struct s_table {
 int		check_num(char *argv);
 int		ft_atoi(char *str);
 void	creat_philo(t_table *table);
+int		get_time(void);
 
 # endif
