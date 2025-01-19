@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/14 12:50:51 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:52:07 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_philosopher {
 	int				id;
 	int				when_ate;
 	int				final;
-	int				init;
+	// int				init;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t *right_fork;
 	t_table			*table;

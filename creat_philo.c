@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/14 13:13:03 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:48:15 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	get_time(void)
 // here we take the two forks
 void	ft_eat(t_philosopher *philo)
 {
+	
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(philo->right_fork);
 	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
 	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
 	printf("[%d] \n" , get_time() - philo->table->times_start);
 	printf("%d is eating\n", philo->id);
-	philo->init = get_time();
+	// philo->init = get_time();
 	usleep(philo->table->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -37,7 +38,6 @@ void	ft_eat(t_philosopher *philo)
 	// philo->when_ate = philo->final - philo->init; 
 	// after usleep forks will be unlock
 }
-
 
 void	ft_sleep(t_philosopher *philo)
 {
