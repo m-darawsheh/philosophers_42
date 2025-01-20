@@ -6,11 +6,36 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/19 19:48:15 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:15:17 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+
+
+void	*r_routine(void *arg)
+{
+	t_table			*table = (t_table *)arg;
+	int				l;
+	usleep(50);
+	while (1)
+	{
+		l = 0;
+		while (l < table->num_philosophers)
+		{
+			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
+			{
+				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
+				table->is_dead = 0;
+				return (NULL);
+			}
+			l++;
+		}
+	}
+}
+
+
 
 int	get_time(void)
 {
@@ -26,43 +51,41 @@ void	ft_eat(t_philosopher *philo)
 	
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(philo->right_fork);
-	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
-	printf("start time %d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
-	printf("[%d] \n" , get_time() - philo->table->times_start);
-	printf("%d is eating\n", philo->id);
-	// philo->init = get_time();
+	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
+	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
+	printf("%d \t philo number %d is eating\n", get_time() - philo->table->times_start, philo->id);
 	usleep(philo->table->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	philo->when_ate = get_time();
 	// philo->final =  get_time();
 	// philo->when_ate = philo->final - philo->init; 
 	// after usleep forks will be unlock
-}
+} 
 
 void	ft_sleep(t_philosopher *philo)
 {
-	printf("%d\t" , get_time() - philo->table->times_start);
-	printf("philo id %d is sleeping\n", philo->id);
+	printf("%d \t philo id %d is sleeping\n" , get_time() - philo->table->times_start, philo->id);
 	usleep(philo->table->time_to_sleep * 1000);
 	
 }
 
 void	ft_think(t_philosopher *philo)
 {
-	printf("%d\t" , get_time() - philo->table->times_start);
-	printf("philo id %d is thinking\n", philo->id);
+	printf("%d \t philo id %d is thinking\n", get_time() - philo->table->times_start, philo->id);
 }
 
 // void pointer because when fucnition return null it mean success
 void	*routine(void *arg)
 {
 	t_philosopher *philo = (t_philosopher *)arg;
-	while (1)
+	while (philo->table->is_dead)
 	{
 		ft_eat(philo);
 		ft_sleep(philo);
 		ft_think(philo);
 	}
+	return (NULL);
 }
 
 void	init_forks(t_table *table)
@@ -96,11 +119,13 @@ void	init_data(t_table *table)
 
 void	creat_philo(t_table *table)
 {
-	int	i;
+	pthread_t	monitor;
+	int			i;
 
 	i = 0;
 	init_forks(table);
 	init_data(table);
+	pthread_create(&monitor, NULL, r_routine, table);
 	while (i < table->num_philosophers)
 	{
 		pthread_create(&table->philosophers[i].philosopher, NULL, routine, &table->philosophers[i]);
@@ -112,4 +137,6 @@ void	creat_philo(t_table *table)
 		pthread_join(table->philosophers[i].philosopher, NULL);
 		i++;
 	}
+	pthread_join(monitor, NULL);
 }
+

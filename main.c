@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/14 12:51:04 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:05:24 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_args(t_table *table, int argc, char **argv)
 	table->time_to_sleep = ft_atoi(argv[4]);
 	table->times_start = get_time();
 	table->meals = 0;
+	table->is_dead = 1;
 	if (argc == 6)
 		table->meals = ft_atoi(argv[5]);
 }
