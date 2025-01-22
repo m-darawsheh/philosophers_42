@@ -6,13 +6,28 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/20 17:15:17 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:46:31 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
+
+// void	free_fun(t_table *table)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < table->num_philosophers)
+// 	{
+// 		pthread_mutex_destroy(&table->forks[i]);
+// 		free(&table->forks[i]);
+// 		free(&table->philosophers[i]);
+// 		i++;
+// 	}
+	
+// }
 
 void	*r_routine(void *arg)
 {
@@ -35,8 +50,6 @@ void	*r_routine(void *arg)
 	}
 }
 
-
-
 int	get_time(void)
 {
 	struct timeval	time;
@@ -48,9 +61,12 @@ int	get_time(void)
 // here we take the two forks
 void	ft_eat(t_philosopher *philo)
 {
-	
+	if (!philo->table->is_dead)
+		return ;
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(philo->right_fork);
+	if (!philo->table->is_dead)
+	return ;
 	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
 	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
 	printf("%d \t philo number %d is eating\n", get_time() - philo->table->times_start, philo->id);
@@ -65,6 +81,8 @@ void	ft_eat(t_philosopher *philo)
 
 void	ft_sleep(t_philosopher *philo)
 {
+	if (!philo->table->is_dead)
+		return ;
 	printf("%d \t philo id %d is sleeping\n" , get_time() - philo->table->times_start, philo->id);
 	usleep(philo->table->time_to_sleep * 1000);
 	
@@ -72,6 +90,8 @@ void	ft_sleep(t_philosopher *philo)
 
 void	ft_think(t_philosopher *philo)
 {
+	if (!philo->table->is_dead)
+		return ;
 	printf("%d \t philo id %d is thinking\n", get_time() - philo->table->times_start, philo->id);
 }
 
@@ -138,5 +158,6 @@ void	creat_philo(t_table *table)
 		i++;
 	}
 	pthread_join(monitor, NULL);
+	// free_fun(table);
 }
 
