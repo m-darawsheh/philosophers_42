@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/20 17:05:24 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:17:51 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	main(int argc, char **argv)
 	}
 	init_args(&table, argc, argv);
 	creat_philo(&table);
-	
+	printf("this is procece not thread");
 	return (0);
 }
