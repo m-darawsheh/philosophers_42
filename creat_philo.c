@@ -6,11 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/25 17:32:22 by mdarawsh         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/24 21:56:10 by mdarawsh         ###   ########.fr       */
->>>>>>> fa879658b7c869b167b385d6fde21c3d7ab035af
+/*   Updated: 2025/01/25 18:28:22 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,94 +31,15 @@ void	free_fun(t_table *table)
 		pthread_mutex_destroy(&table->forks[i]);
 		i++;
 	}
-<<<<<<< HEAD
 	pthread_mutex_destroy(&table->print_sl);
-	free(table->philosophers);
-=======
->>>>>>> fa879658b7c869b167b385d6fde21c3d7ab035af
 	free(table->forks);
 	free(table->philosophers);
 }
-
-// void	*r_routine(void *arg)
-// {
-// 	t_table			*table = (t_table *)arg;
-// 	int				l;
-// 	// usleep(20);
-// 	while (1)
-// 	{
-// 		l = 0;
-// 		while (l < table->num_philosophers)
-// 		{
-// 			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
-// 			{
-// 				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
-// 				table->is_dead = 0;
-// 				return (NULL);
-// 			}
-// 			l++;
-// 		}
-// 	}
-// }
-
-// void *r_routine(void *args)
-// {
-//     t_table *table = (t_table *)args;
-// 	int				l;
-// 	// usleep(20);
-// 	while (1)
-// 	{
-// 		l = 0;
-// 		while (l < table->num_philosophers)
-// 		{
-			
-// 			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
-// 			{
-//    		 		pthread_mutex_lock(&table->write_mutex); // Add mutex for printf
-// 				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
-// 				pthread_mutex_unlock(&table->write_mutex);
-// 				table->is_dead = 0;
-// 				return (NULL);
-// 			}
-// 			l++;
-// 		}
-// 	}
-//     return NULL;
-// }
-
-// void *r_routine(void *args)
-// {
-//     t_table *table = (t_table *)args;
-//     int l;
-
-//     while (1)
-//     {
-//         l = 0;
-//         while (l < table->num_philosophers)
-//         {
-//             // pthread_mutex_lock(&table->write_mutex);
-//             if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
-//             {
-//                 printf("[%d] philo number is %d is dead\n", 
-//                        get_time() - table->times_start, 
-//                        table->philosophers[l].id);
-//                 table->is_dead = 0;
-//                 // pthread_mutex_unlock(&table->write_mutex);
-//                 return NULL;
-//             }
-//             // pthread_mutex_unlock(&table->write_mutex);
-//             l++;
-//         }
-//         // usleep(1000); // Small delay to prevent busy waiting
-//     }
-//     return NULL;
-// }
 
 void *r_routine(void *args)
 {
     t_table *table = (t_table *)args;
     int l;
-    int is_dead;
 
     while (1)
     {
@@ -130,9 +47,7 @@ void *r_routine(void *args)
         while (l < table->num_philosophers)
         {
             pthread_mutex_lock(&table->write_mutex);
-            is_dead = (get_time() - table->philosophers[l].when_ate >= table->time_to_die);
-            
-            if (is_dead)
+            if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
             {
                 printf("[%d] philo number is %d is dead\n", 
                     get_time() - table->times_start, 
@@ -178,12 +93,6 @@ void printf_fork(t_philosopher *philo)
 
 
 
-// void	printf_sleep(t_philosopher *philo)
-// {
-// 	pthread_mutex_lock(&philo->table->print_sl);
-// 	printf("%d \t philo id %d is sleeping\n" , get_time() - philo->table->times_start, philo->id);
-// 	pthread_mutex_unlock(&philo->table->print_sl);
-// }
 
 void	printf_think(t_philosopher *philo)
 {
@@ -191,31 +100,6 @@ void	printf_think(t_philosopher *philo)
 	printf("%d \t philo id %d is thinking\n" , get_time() - philo->table->times_start, philo->id);
 	pthread_mutex_unlock(&philo->table->print_th);
 }
-// void	printf_eat(t_philosopher *philo)
-// {
-// 	pthread_mutex_lock(&philo->table->print_ea);
-// 	printf("%d \t the philo id %d has taken the fork\n" , get_time() - philo->table->times_start, philo->id);
-// 	printf("%d \t philo id %d is eating\n" , get_time() - philo->table->times_start, philo->id);
-// 	pthread_mutex_unlock(&philo->table->print_ea);
-// }
-
-// void	ft_eat(t_philosopher *philo)
-// {
-// 	if (!philo->table->is_dead)
-// 		return ;
-// 	pthread_mutex_lock(philo->left_fork);
-// 	pthread_mutex_lock(philo->right_fork);
-// 	if (!philo->table->is_dead)
-// 	return ;
-	
-// 	printf_eat(philo);
-// 	usleep((philo->table->time_to_eat )* 1000);
-	
-// 	pthread_mutex_unlock(philo->left_fork);
-// 	pthread_mutex_unlock(philo->right_fork);
-// 	philo->when_ate = get_time();
-// } 
-
 
 
 void ft_eat(t_philosopher *philo)
@@ -259,23 +143,31 @@ void ft_eat(t_philosopher *philo)
 
 void	ft_sleep(t_philosopher *philo)
 {
-	if (!philo->table->is_dead)
-		return ;
-		
-	printf_sleep(philo);
-	
-	usleep((philo->table->time_to_sleep) * 1000);
+    pthread_mutex_lock(&philo->table->write_mutex);
+    if (!philo->table->is_dead)
+    {
+        pthread_mutex_unlock(&philo->table->write_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->write_mutex);
+
+    printf_sleep(philo);
+
+    usleep((philo->table->time_to_sleep) * 1000);
 	
 }
 
-
-void	ft_think(t_philosopher *philo)
+void ft_think(t_philosopher *philo)
 {
-	if (!philo->table->is_dead)
-		return ;
-		
-	printf_think(philo);
-	
+    pthread_mutex_lock(&philo->table->write_mutex);
+    if (!philo->table->is_dead)
+    {
+        pthread_mutex_unlock(&philo->table->write_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->write_mutex);
+
+    printf_think(philo);
 }
 
 // void pointer because when fucnition return null it mean success
