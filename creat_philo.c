@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/24 20:08:30 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:32:22 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,75 +31,278 @@ void	free_fun(t_table *table)
 		pthread_mutex_destroy(&table->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&table->print_sl);
 	free(table->philosophers);
 	free(table->forks);
 }
 
-void	*r_routine(void *arg)
+// void	*r_routine(void *arg)
+// {
+// 	t_table			*table = (t_table *)arg;
+// 	int				l;
+// 	// usleep(20);
+// 	while (1)
+// 	{
+// 		l = 0;
+// 		while (l < table->num_philosophers)
+// 		{
+// 			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
+// 			{
+// 				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
+// 				table->is_dead = 0;
+// 				return (NULL);
+// 			}
+// 			l++;
+// 		}
+// 	}
+// }
+
+// void *r_routine(void *args)
+// {
+//     t_table *table = (t_table *)args;
+// 	int				l;
+// 	// usleep(20);
+// 	while (1)
+// 	{
+// 		l = 0;
+// 		while (l < table->num_philosophers)
+// 		{
+			
+// 			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
+// 			{
+//    		 		pthread_mutex_lock(&table->write_mutex); // Add mutex for printf
+// 				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
+// 				pthread_mutex_unlock(&table->write_mutex);
+// 				table->is_dead = 0;
+// 				return (NULL);
+// 			}
+// 			l++;
+// 		}
+// 	}
+//     return NULL;
+// }
+
+// void *r_routine(void *args)
+// {
+//     t_table *table = (t_table *)args;
+//     int l;
+
+//     while (1)
+//     {
+//         l = 0;
+//         while (l < table->num_philosophers)
+//         {
+//             // pthread_mutex_lock(&table->write_mutex);
+//             if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
+//             {
+//                 printf("[%d] philo number is %d is dead\n", 
+//                        get_time() - table->times_start, 
+//                        table->philosophers[l].id);
+//                 table->is_dead = 0;
+//                 // pthread_mutex_unlock(&table->write_mutex);
+//                 return NULL;
+//             }
+//             // pthread_mutex_unlock(&table->write_mutex);
+//             l++;
+//         }
+//         // usleep(1000); // Small delay to prevent busy waiting
+//     }
+//     return NULL;
+// }
+
+void *r_routine(void *args)
 {
-	t_table			*table = (t_table *)arg;
-	int				l;
-	// usleep(20);
-	while (1)
-	{
-		l = 0;
-		while (l < table->num_philosophers)
-		{
-			if (get_time() - table->philosophers[l].when_ate >= table->time_to_die)
-			{
-				printf("[%d] philo number is %d is dead\n", get_time() - table->times_start, table->philosophers->id);
-				table->is_dead = 0;
-				return (NULL);
-			}
-			l++;
-		}
-	}
+    t_table *table = (t_table *)args;
+    int l;
+    int is_dead;
+
+    while (1)
+    {
+        l = 0;
+        while (l < table->num_philosophers)
+        {
+            pthread_mutex_lock(&table->write_mutex);
+            is_dead = (get_time() - table->philosophers[l].when_ate >= table->time_to_die);
+            
+            if (is_dead)
+            {
+                printf("[%d] philo number is %d is dead\n", 
+                    get_time() - table->times_start, 
+                    table->philosophers[l].id);
+                table->is_dead = 0;
+                pthread_mutex_unlock(&table->write_mutex);
+                return NULL;
+            }
+            pthread_mutex_unlock(&table->write_mutex);
+            l++;
+        }
+        usleep(100); // Small delay to prevent busy waiting
+    }
+    return NULL;
 }
 
-void	ft_eat(t_philosopher *philo)
+// Replace all printf functions with this single protected version
+void protected_print(t_table *table, int philo_id, char *msg)
 {
-	if (!philo->table->is_dead)
-		return ;
-	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(philo->right_fork);
-	if (!philo->table->is_dead)
-	return ;
-	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
-	printf("%d \t the philo id %d has taken the fork\n", get_time() - philo->table->times_start, philo->id);
-	printf("%d \t philo number %d is eating\n", get_time() - philo->table->times_start, philo->id);
-	usleep((philo->table->time_to_eat )* 1000);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-	philo->when_ate = get_time();
-} 
+    pthread_mutex_lock(&table->write_mutex);
+    if (table->is_dead)
+        printf("%d \t philo id %d %s\n", 
+            get_time() - table->times_start, 
+            philo_id, 
+            msg);
+    pthread_mutex_unlock(&table->write_mutex);
+}
+
+void printf_sleep(t_philosopher *philo)
+{
+    protected_print(philo->table, philo->id, "is sleeping");
+}
+
+void printf_eat(t_philosopher *philo)
+{
+    protected_print(philo->table, philo->id, "is eating");
+}
+
+void printf_fork(t_philosopher *philo)
+{
+    protected_print(philo->table, philo->id, "has taken the fork");
+}
+
+
+
+// void	printf_sleep(t_philosopher *philo)
+// {
+// 	pthread_mutex_lock(&philo->table->print_sl);
+// 	printf("%d \t philo id %d is sleeping\n" , get_time() - philo->table->times_start, philo->id);
+// 	pthread_mutex_unlock(&philo->table->print_sl);
+// }
+
+void	printf_think(t_philosopher *philo)
+{
+	pthread_mutex_lock(&philo->table->print_th);
+	printf("%d \t philo id %d is thinking\n" , get_time() - philo->table->times_start, philo->id);
+	pthread_mutex_unlock(&philo->table->print_th);
+}
+// void	printf_eat(t_philosopher *philo)
+// {
+// 	pthread_mutex_lock(&philo->table->print_ea);
+// 	printf("%d \t the philo id %d has taken the fork\n" , get_time() - philo->table->times_start, philo->id);
+// 	printf("%d \t philo id %d is eating\n" , get_time() - philo->table->times_start, philo->id);
+// 	pthread_mutex_unlock(&philo->table->print_ea);
+// }
+
+// void	ft_eat(t_philosopher *philo)
+// {
+// 	if (!philo->table->is_dead)
+// 		return ;
+// 	pthread_mutex_lock(philo->left_fork);
+// 	pthread_mutex_lock(philo->right_fork);
+// 	if (!philo->table->is_dead)
+// 	return ;
+	
+// 	printf_eat(philo);
+// 	usleep((philo->table->time_to_eat )* 1000);
+	
+// 	pthread_mutex_unlock(philo->left_fork);
+// 	pthread_mutex_unlock(philo->right_fork);
+// 	philo->when_ate = get_time();
+// } 
+
+
+
+void ft_eat(t_philosopher *philo)
+{
+    pthread_mutex_lock(&philo->table->write_mutex);
+    if (!philo->table->is_dead)
+    {
+        pthread_mutex_unlock(&philo->table->write_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->write_mutex);
+
+    // Lock forks in order to prevent deadlocks
+    if (philo->id % 2 == 0)
+    {
+        pthread_mutex_lock(philo->left_fork);
+        pthread_mutex_lock(philo->right_fork);
+    }
+    else 
+    {
+        pthread_mutex_lock(philo->right_fork);
+        pthread_mutex_lock(philo->left_fork);
+    }
+    pthread_mutex_lock(&philo->table->write_mutex);
+    if (!philo->table->is_dead)
+    {
+        pthread_mutex_unlock(&philo->table->write_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->write_mutex);
+	printf_fork(philo);
+    printf_eat(philo);
+    usleep(philo->table->time_to_eat * 1000);
+    philo->when_ate = get_time();
+
+    pthread_mutex_unlock(philo->left_fork);
+    pthread_mutex_unlock(philo->right_fork);
+}
+
+
 
 void	ft_sleep(t_philosopher *philo)
 {
 	if (!philo->table->is_dead)
 		return ;
-	printf("%d \t philo id %d is sleeping\n" , get_time() - philo->table->times_start, philo->id);
+		
+	printf_sleep(philo);
+	
 	usleep((philo->table->time_to_sleep) * 1000);
 	
 }
+
 
 void	ft_think(t_philosopher *philo)
 {
 	if (!philo->table->is_dead)
 		return ;
-	printf("%d \t philo id %d is thinking\n", get_time() - philo->table->times_start, philo->id);
+		
+	printf_think(philo);
+	
 }
 
 // void pointer because when fucnition return null it mean success
-void	*routine(void *arg)
+// void	*routine(void *arg)
+// {
+// 	t_philosopher *philo = (t_philosopher *)arg;
+// 	while (philo->table->is_dead)
+// 	{
+// 		ft_eat(philo);
+// 		ft_sleep(philo);
+// 		ft_think(philo);
+// 	}
+// 	return (NULL);
+// }
+
+
+void *routine(void *arg)
 {
-	t_philosopher *philo = (t_philosopher *)arg;
-	while (philo->table->is_dead)
-	{
-		ft_eat(philo);
-		ft_sleep(philo);
-		ft_think(philo);
-	}
-	return (NULL);
+    t_philosopher *philo = (t_philosopher *)arg;
+    
+    while (1)
+    {
+        pthread_mutex_lock(&philo->table->write_mutex);
+        if (!philo->table->is_dead)
+        {
+            pthread_mutex_unlock(&philo->table->write_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&philo->table->write_mutex);
+        
+        ft_eat(philo);
+        ft_sleep(philo);
+        ft_think(philo);
+    }
+    return NULL;
 }
 
 void	init_forks(t_table *table)
@@ -112,6 +315,10 @@ void	init_forks(t_table *table)
 		pthread_mutex_init(&table->forks[i], NULL);	
 		i++;
 	}
+	pthread_mutex_init(&table->print_sl, NULL);
+	pthread_mutex_init(&table->write_mutex, NULL);
+	pthread_mutex_init(&table->print_th, NULL);
+	pthread_mutex_init(&table->print_ea, NULL);
 }
 
 void	init_data(t_table *table)
