@@ -6,7 +6,11 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/25 17:32:22 by mdarawsh         ###   ########.fr       */
+=======
+/*   Updated: 2025/01/24 21:56:10 by mdarawsh         ###   ########.fr       */
+>>>>>>> fa879658b7c869b167b385d6fde21c3d7ab035af
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +35,13 @@ void	free_fun(t_table *table)
 		pthread_mutex_destroy(&table->forks[i]);
 		i++;
 	}
+<<<<<<< HEAD
 	pthread_mutex_destroy(&table->print_sl);
 	free(table->philosophers);
+=======
+>>>>>>> fa879658b7c869b167b385d6fde21c3d7ab035af
 	free(table->forks);
+	free(table->philosophers);
 }
 
 // void	*r_routine(void *arg)
@@ -363,4 +371,3 @@ void	creat_philo(t_table *table)
 	free_fun(table);
 	return;
 }
-
