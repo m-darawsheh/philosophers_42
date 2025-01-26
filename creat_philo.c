@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/25 18:28:22 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/27 01:51:13 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_fun(t_table *table)
 		pthread_mutex_destroy(&table->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&table->print_sl);
+	pthread_mutex_destroy(&table->write_mutex);
 	free(table->forks);
 	free(table->philosophers);
 }
@@ -91,15 +91,12 @@ void printf_fork(t_philosopher *philo)
     protected_print(philo->table, philo->id, "has taken the fork");
 }
 
-
-
-
-void	printf_think(t_philosopher *philo)
+void printf_think(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->table->print_th);
-	printf("%d \t philo id %d is thinking\n" , get_time() - philo->table->times_start, philo->id);
-	pthread_mutex_unlock(&philo->table->print_th);
+    protected_print(philo->table, philo->id, "is thinking");
 }
+
+
 
 
 void ft_eat(t_philosopher *philo)
@@ -133,7 +130,9 @@ void ft_eat(t_philosopher *philo)
 	printf_fork(philo);
     printf_eat(philo);
     usleep(philo->table->time_to_eat * 1000);
+    pthread_mutex_lock(&philo->table->write_mutex);
     philo->when_ate = get_time();
+    pthread_mutex_unlock(&philo->table->write_mutex);
 
     pthread_mutex_unlock(philo->left_fork);
     pthread_mutex_unlock(philo->right_fork);
@@ -170,19 +169,6 @@ void ft_think(t_philosopher *philo)
     printf_think(philo);
 }
 
-// void pointer because when fucnition return null it mean success
-// void	*routine(void *arg)
-// {
-// 	t_philosopher *philo = (t_philosopher *)arg;
-// 	while (philo->table->is_dead)
-// 	{
-// 		ft_eat(philo);
-// 		ft_sleep(philo);
-// 		ft_think(philo);
-// 	}
-// 	return (NULL);
-// }
-
 
 void *routine(void *arg)
 {
@@ -215,10 +201,7 @@ void	init_forks(t_table *table)
 		pthread_mutex_init(&table->forks[i], NULL);	
 		i++;
 	}
-	pthread_mutex_init(&table->print_sl, NULL);
 	pthread_mutex_init(&table->write_mutex, NULL);
-	pthread_mutex_init(&table->print_th, NULL);
-	pthread_mutex_init(&table->print_ea, NULL);
 }
 
 void	init_data(t_table *table)
