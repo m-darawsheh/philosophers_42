@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/29 19:35:31 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:03:47 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,6 @@ void printf_think(t_philosopher *philo)
 
 void ft_eat(t_philosopher *philo)
 {
-    // pthread_mutex_lock(&philo->table->write_mutex);
-    // if (!philo->table->is_dead)
-    // {
-    //     pthread_mutex_unlock(&philo->table->write_mutex);
-    //     return;
-    // }
-    // pthread_mutex_unlock(&philo->table->write_mutex);
 
     if (philo->left_fork < philo->right_fork)
     {
