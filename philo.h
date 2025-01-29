@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/27 01:50:24 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:35:39 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_table {
 	int				meals;
 	int				times_start;
 	int				is_dead;
+	int				there_is_meal;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_mutex;
 	t_philosopher	*philosophers;

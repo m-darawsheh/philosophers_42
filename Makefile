@@ -1,4 +1,4 @@
-NAME = philo.a
+NAME = philo
 
 SRCS = main.c helper.c check_num.c creat_philo.c
 
@@ -6,7 +6,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 

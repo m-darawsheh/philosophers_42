@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/24 18:17:51 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:29:46 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	init_args(t_table *table, int argc, char **argv)
 	table->time_to_sleep = ft_atoi(argv[4]);
 	table->times_start = get_time();
 	table->meals = 0;
+	table->there_is_meal = 0;
 	table->is_dead = 1;
 	if (argc == 6)
-		table->meals = ft_atoi(argv[5]);
+	{
+		table->meals = (ft_atoi(argv[5]) * table->num_philosophers);
+		table->there_is_meal = 1;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -54,8 +58,17 @@ int	main(int argc, char **argv)
 			return (1);
 		i++;
 	}
-	init_args(&table, argc, argv);
-	creat_philo(&table);
-	printf("this is procece not thread");
+	if (ft_atoi(argv[1]) == 1)
+	{
+		// usleep (ft_atoi(argv[2]) * 1000);
+		printf( "[%s] \t philo id 1 is dead\n", argv[2]);
+		return (0);
+	}
+	else
+	{
+		init_args(&table, argc, argv);
+		creat_philo(&table);
+	}
+	printf("[-----this is procece not thread-----]");
 	return (0);
 }
