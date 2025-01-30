@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/29 19:29:46 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:56:17 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	init_args(t_table *table, int argc, char **argv)
 {
-	table->num_philosophers = ft_atoi(argv[1]);
-	table->philosophers = malloc(sizeof(t_philosopher) * table->num_philosophers);
-	if(!table->philosophers)
+	table->numbers = ft_atoi(argv[1]);
+	table->philosophers = malloc(sizeof(t_philosopher) * table->numbers);
+	if (!table->philosophers)
 	{
 		printf("Error\n : malloc failed\n");
 		return ;
 	}
-	table->forks = malloc(sizeof(pthread_mutex_t) * table->num_philosophers);
-	if(!table->forks)
+	table->forks = malloc(sizeof(pthread_mutex_t) * table->numbers);
+	if (!table->forks)
 	{
 		printf("Error\n : malloc failed\n");
 		return ;
@@ -36,16 +36,22 @@ void	init_args(t_table *table, int argc, char **argv)
 	table->is_dead = 1;
 	if (argc == 6)
 	{
-		table->meals = (ft_atoi(argv[5]) * table->num_philosophers);
+		table->meals = (ft_atoi(argv[5]) * table->numbers);
 		table->there_is_meal = 1;
 	}
+}
+
+void	init_and_create(t_table *t_table, int argc, char **argv)
+{
+	init_args(t_table, argc, argv);
+	creat_philo(t_table);
 }
 
 int	main(int argc, char **argv)
 {
 	t_table		table;
 	int			i;
-	
+
 	if (argc < 5 || argc > 6)
 	{
 		printf("Error\n : invalid number of argument\n");
@@ -60,15 +66,10 @@ int	main(int argc, char **argv)
 	}
 	if (ft_atoi(argv[1]) == 1)
 	{
-		// usleep (ft_atoi(argv[2]) * 1000);
-		printf( "[%s] \t philo id 1 is dead\n", argv[2]);
+		printf("[%s] \t philo id 1 is dead\n", argv[2]);
 		return (0);
 	}
 	else
-	{
-		init_args(&table, argc, argv);
-		creat_philo(&table);
-	}
-	printf("[-----this is procece not thread-----]");
+		init_and_create(&table, argc, argv);
 	return (0);
 }
