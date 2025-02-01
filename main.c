@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/30 12:56:17 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:34:53 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	init_args(t_table *table, int argc, char **argv)
 {
 	table->numbers = ft_atoi(argv[1]);
-	table->philosophers = malloc(sizeof(t_philosopher) * table->numbers);
-	if (!table->philosophers)
+	table->philo = malloc(sizeof(t_philosopher) * table->numbers);
+	if (!table->philo)
 	{
 		printf("Error\n : malloc failed\n");
 		return ;
@@ -66,6 +66,7 @@ int	main(int argc, char **argv)
 	}
 	if (ft_atoi(argv[1]) == 1)
 	{
+		usleep(ft_atoi(argv[3]) * 1000);
 		printf("[%s] \t philo id 1 is dead\n", argv[2]);
 		return (0);
 	}

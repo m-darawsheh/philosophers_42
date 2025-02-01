@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:11:39 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/01/30 14:12:26 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:36:09 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	lock_forks(t_philosopher *philo)
 		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(philo->right_fork);
 	}
-	else 
+	else
 	{
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
@@ -34,7 +34,7 @@ void	unlock_forks(t_philosopher *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}
-	else 
+	else
 	{
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
@@ -64,7 +64,7 @@ void	ft_eat(t_philosopher *philo)
 	{
 		unlock_forks(philo);
 		pthread_mutex_unlock(&philo->table->write_mutex);
-		return;
+		return ;
 	}
 	pthread_mutex_unlock(&philo->table->write_mutex);
 	print_forks_eat(philo);
