@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/01 14:35:11 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:52:35 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ void	free_fun(t_table *table);
 void	ft_sleep(t_philosopher *philo);
 void	*r_routine(void *args);
 int		exit_routine(t_table *table, int l);
+void	ft_usleep(long long start_time, long long duration_ms, t_table *table);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 01:23:11 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/01 14:33:39 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:21:14 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ void	ft_sleep(t_philosopher *philo)
 	}
 	pthread_mutex_unlock(&philo->table->write_mutex);
 	printf_sleep(philo);
-	usleep((philo->table->time_to_sleep) * 1000);
+	ft_usleep(get_time(), philo->table->time_to_sleep, philo->table);
 }
