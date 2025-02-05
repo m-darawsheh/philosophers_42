@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:11:39 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/03 19:21:39 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/05 04:51:04 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,6 @@ void	ft_eat(t_philosopher *philo)
 		pthread_mutex_lock(&philo->table->write_mutex);
 		philo->table->meals--;
 		pthread_mutex_unlock(&philo->table->write_mutex);
-	}
-	else if (philo->table->meals == 0 && philo->table->there_is_meal)
-	{
-		pthread_mutex_lock(&philo->table->write_mutex);
-		philo->table->there_is_meal = 0;
-		philo->table->is_dead = 0;
-		pthread_mutex_unlock(&philo->table->write_mutex);
-		return ;
 	}
 	finish_eat(philo);
 }
