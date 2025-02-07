@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:11:39 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/05 04:51:04 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:14:20 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	lock_forks(t_philosopher *philo)
 {
 	if (philo->left_fork < philo->right_fork)
 	{
-		usleep(philo->table->numbers * 100);
 		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(philo->right_fork);
 	}
@@ -43,8 +42,19 @@ void	unlock_forks(t_philosopher *philo)
 
 void	print_forks_eat(t_philosopher *philo)
 {
-	printf_fork(philo);
-	printf_eat(philo);
+	if (philo->table->meals != 0 && philo->table->there_is_meal)
+	{
+		pthread_mutex_lock(&philo->table->write_mutex);
+		philo->table->meals--;
+		pthread_mutex_unlock(&philo->table->write_mutex);
+		printf_fork(philo);
+		printf_eat(philo);
+	}
+	else if (!philo->table->there_is_meal && philo->table->is_dead)
+	{
+		printf_fork(philo);
+		printf_eat(philo);
+	}
 }
 
 void	finish_eat(t_philosopher *philo)
@@ -68,11 +78,5 @@ void	ft_eat(t_philosopher *philo)
 	}
 	pthread_mutex_unlock(&philo->table->write_mutex);
 	print_forks_eat(philo);
-	if (philo->table->meals > 0 && philo->table->there_is_meal)
-	{
-		pthread_mutex_lock(&philo->table->write_mutex);
-		philo->table->meals--;
-		pthread_mutex_unlock(&philo->table->write_mutex);
-	}
 	finish_eat(philo);
 }

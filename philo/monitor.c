@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:06:58 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/03 15:24:22 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:06:25 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	exit_routine(t_table *table, int l)
 		table->is_dead = 0;
 		table->there_is_meal = 0;
 		pthread_mutex_unlock(&table->write_mutex);
-		printf("All philo have eaten\n");
 		return (0);
 	}
 	return (1);
@@ -54,7 +53,7 @@ void	*r_routine(void *args)
 			pthread_mutex_unlock(&table->write_mutex);
 			l++;
 		}
-		usleep(500);
+		usleep(100);
 	}
 	return (NULL);
 }

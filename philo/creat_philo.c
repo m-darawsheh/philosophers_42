@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/03 10:32:19 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:40:55 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	creat_philo(t_table *table)
 	{
 		pthread_create(&table->philo[i].philosopher, NULL,
 			routine, &table->philo[i]);
-		usleep (10);
+		usleep (100);
 		i++;
 	}
 	pthread_create(&monitor, NULL, r_routine, table);
