@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 01:23:11 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/10 15:35:13 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:21:14 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	free_fun(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->write_mutex);
-	pthread_mutex_destroy(&table->spare);
 	free(table->forks);
 	free(table->philo);
 }

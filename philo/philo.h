@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/10 15:12:31 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:52:35 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_table
 	int				there_is_meal;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	spare;
 	t_philosopher	*philo;
 }	t_table;
 

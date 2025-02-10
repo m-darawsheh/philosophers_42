@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/10 15:34:16 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:40:55 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	init_forks(t_table *table)
 		i++;
 	}
 	pthread_mutex_init(&table->write_mutex, NULL);
-	pthread_mutex_init(&table->spare, NULL);
 }
 
 void	init_data(t_table *table)
@@ -87,6 +86,7 @@ void	creat_philo(t_table *table)
 	{
 		pthread_create(&table->philo[i].philosopher, NULL,
 			routine, &table->philo[i]);
+		usleep (100);
 		i++;
 	}
 	pthread_create(&monitor, NULL, r_routine, table);

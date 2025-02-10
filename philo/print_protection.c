@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:24:55 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/10 16:36:30 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:02:03 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 void	protected_print(t_table *table, int philo_id, char *msg, char *color)
 {
-	pthread_mutex_lock(&table->spare);
 	if (!table->is_dead)
-	{
-		pthread_mutex_unlock(&table->spare);
 		return ;
-	}
-	pthread_mutex_unlock(&table->spare);
 	pthread_mutex_lock(&table->write_mutex);
 	if (table->is_dead)
 		printf("%s%d \t philo id %d %s%s\n",
