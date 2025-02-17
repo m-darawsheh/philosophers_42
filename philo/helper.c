@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 01:23:11 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/03 19:21:14 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:29:17 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	free_fun(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->write_mutex);
+	pthread_mutex_destroy(&table->is_dead_mutex);
 	free(table->forks);
 	free(table->philo);
 }
@@ -52,13 +53,13 @@ int	get_time(void)
 
 void	ft_sleep(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->table->write_mutex);
+	pthread_mutex_lock(&philo->table->is_dead_mutex);
 	if (!philo->table->is_dead)
 	{
-		pthread_mutex_unlock(&philo->table->write_mutex);
+		pthread_mutex_unlock(&philo->table->is_dead_mutex);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->table->write_mutex);
+	pthread_mutex_unlock(&philo->table->is_dead_mutex);
 	printf_sleep(philo);
 	ft_usleep(get_time(), philo->table->time_to_sleep, philo->table);
 }

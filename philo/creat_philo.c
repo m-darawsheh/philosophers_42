@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/07 15:40:55 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:46:39 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	ft_think(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->table->write_mutex);
+	pthread_mutex_lock(&philo->table->is_dead_mutex);
 	if (!philo->table->is_dead)
 	{
-		pthread_mutex_unlock(&philo->table->write_mutex);
+		pthread_mutex_unlock(&philo->table->is_dead_mutex);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->table->write_mutex);
+	pthread_mutex_unlock(&philo->table->is_dead_mutex);
 	printf_think(philo);
 }
 
@@ -29,15 +29,15 @@ void	*routine(void *arg)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
-	while (philo->table->there_is_meal || philo->table->is_dead)
+	while (1)
 	{
-		pthread_mutex_lock(&philo->table->write_mutex);
+		pthread_mutex_lock(&philo->table->is_dead_mutex);
 		if (!philo->table->is_dead)
 		{
-			pthread_mutex_unlock(&philo->table->write_mutex);
+			pthread_mutex_unlock(&philo->table->is_dead_mutex);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->table->write_mutex);
+		pthread_mutex_unlock(&philo->table->is_dead_mutex);
 		ft_eat(philo);
 		ft_sleep(philo);
 		ft_think(philo);
@@ -56,6 +56,7 @@ void	init_forks(t_table *table)
 		i++;
 	}
 	pthread_mutex_init(&table->write_mutex, NULL);
+	pthread_mutex_init(&table->is_dead_mutex, NULL);
 }
 
 void	init_data(t_table *table)
@@ -63,13 +64,14 @@ void	init_data(t_table *table)
 	int	i;
 
 	i = 0;
+	table->times_start = get_time();
 	while (i < table->numbers)
 	{
-		table->philo[i].table = table;
 		table->philo[i].id = i + 1;
-		table->philo[i].right_fork = &table->forks[(i + 1) % table->numbers];
+		table->philo[i].when_ate = table->times_start;
 		table->philo[i].left_fork = &table->forks[i];
-		table->philo[i].when_ate = 0;
+		table->philo[i].right_fork = &table->forks[(i + 1) % table->numbers];
+		table->philo[i].table = table;
 		i++;
 	}
 }

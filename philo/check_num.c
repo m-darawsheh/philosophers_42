@@ -6,26 +6,26 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 00:20:47 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/11 17:24:38 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:28:42 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(long long start_time, long long type_time, t_table *table)
+void	ft_usleep(long long start_time, long long duration_ms, t_table *table)
 {
-	long long	the_end;
+	long long	end_time;
 
-	the_end = start_time + type_time;
-	while (get_time() < the_end)
+	end_time = start_time + duration_ms;
+	while (get_time() < end_time)
 	{
-		pthread_mutex_lock(&table->write_mutex);
+		pthread_mutex_lock(&table->is_dead_mutex);
 		if (!table->is_dead)
 		{
-			pthread_mutex_unlock(&table->write_mutex);
+			pthread_mutex_unlock(&table->is_dead_mutex);
 			break ;
 		}
-		pthread_mutex_unlock(&table->write_mutex);
+		pthread_mutex_unlock(&table->is_dead_mutex);
 		usleep(1);
 	}
 }
