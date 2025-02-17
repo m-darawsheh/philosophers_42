@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 10:10:46 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:45:03 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philosopher
 	int				id;
 	int				when_ate;
 	int				final;
+	int				meals;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_table			*table;
@@ -47,10 +48,11 @@ typedef struct s_table
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				meals;
 	int				times_start;
 	int				is_dead;
 	int				there_is_meal;
+	int				number_of_meals;
+	int				all_philo_eatn;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	is_dead_mutex;

@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 10:46:39 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:50:41 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	init_data(t_table *table)
 	table->times_start = get_time();
 	while (i < table->numbers)
 	{
+		table->philo[i].meals = table->number_of_meals;
 		table->philo[i].id = i + 1;
 		table->philo[i].when_ate = table->times_start;
 		table->philo[i].left_fork = &table->forks[i];
