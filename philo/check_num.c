@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 00:20:47 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/18 15:02:40 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:29:00 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	create_thread(t_table *table)
 	while (l < table->numbers)
 	{
 		if (pthread_create(&table->philo[l].philosopher, NULL,
-			routine, &table->philo[l]) != 0)
+				routine, &table->philo[l]) != 0)
 		{
 			printf("Error\n : pthread_create failed\n");
 			return (1);

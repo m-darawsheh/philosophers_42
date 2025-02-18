@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 14:06:58 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 19:07:05 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:31:08 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_all_philo_eatn(t_table *table)
 {
 	int	i;
-	int counter;
+	int	counter;
 
 	i = 0;
 	counter = 0;
@@ -28,7 +28,7 @@ void	check_all_philo_eatn(t_table *table)
 		if (counter == table->numbers)
 		{
 			table->all_philo_eatn = 1;
-			return ;		
+			return ;
 		}
 		i++;
 	}
@@ -65,7 +65,6 @@ int	exit_routine(t_table *table, int l)
 	return (1);
 }
 
-
 void	*r_routine(void *args)
 {
 	int		l;
@@ -78,18 +77,15 @@ void	*r_routine(void *args)
 		if (!table->there_is_meal && !table->is_dead)
 		{
 			pthread_mutex_unlock(&table->is_dead_mutex);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&table->is_dead_mutex);
-
 		l = 0;
 		while (l < table->numbers)
 		{
 			pthread_mutex_lock(&table->write_mutex);
 			if (!exit_routine(table, l))
-			{
 				return (NULL);
-			}
 			pthread_mutex_unlock(&table->write_mutex);
 			l++;
 		}

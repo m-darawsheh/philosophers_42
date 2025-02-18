@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:53 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:30:35 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	init_args(t_table *table, int argc, char **argv)
 	}
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->numbers);
 	if (!table->forks)
-	{
-		printf("Error\n : malloc failed\n");
 		return ;
-	}
 	table->time_to_die = ft_atoi(argv[2]);
 	table->time_to_eat = ft_atoi(argv[3]);
 	table->time_to_sleep = ft_atoi(argv[4]);
