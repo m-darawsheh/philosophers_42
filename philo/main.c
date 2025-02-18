@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:15:24 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 18:45:12 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:24:53 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,6 @@ int	main(int argc, char **argv)
 			return (1);
 		i++;
 	}
-	if (ft_atoi(argv[1]) == 1)
-	{
-		usleep(ft_atoi(argv[3]) * 1000);
-		printf("[%s] \t philo id 1 is dead\n", argv[2]);
-		return (0);
-	}
-	else
-		init_and_create(&table, argc, argv);
+	init_and_create(&table, argc, argv);
 	return (0);
 }

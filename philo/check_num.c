@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 00:20:47 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 10:28:42 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:02:40 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,42 @@ int	check_num(char *argv)
 			return (1);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	create_thread(t_table *table)
+{
+	int	l;
+
+	l = 0;
+	while (l < table->numbers)
+	{
+		if (pthread_create(&table->philo[l].philosopher, NULL,
+			routine, &table->philo[l]) != 0)
+		{
+			printf("Error\n : pthread_create failed\n");
+			return (1);
+		}
+		usleep (100);
+		l++;
+	}
+	return (0);
+}
+
+int	join_thread(t_table *table)
+{
+	int	l;
+
+	l = 0;
+	while (l < table->numbers)
+	{
+		if (pthread_join(table->philo[l].philosopher, NULL) != 0)
+		{
+			printf("Error\n : pthread_join failed\n");
+			return (1);
+		}
+		l++;
 	}
 	return (0);
 }

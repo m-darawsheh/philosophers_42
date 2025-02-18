@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:44:19 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 18:50:41 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:20:01 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	*routine(void *arg)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
+	if (philo->table->numbers == 1)
+	{
+		printf_fork(philo);
+		usleep((philo->table->time_to_die) * 1000);
+		return (NULL);
+	}
 	while (1)
 	{
 		pthread_mutex_lock(&philo->table->is_dead_mutex);
@@ -80,26 +86,15 @@ void	init_data(t_table *table)
 void	creat_philo(t_table *table)
 {
 	pthread_t	monitor;
-	int			i;
 
-	i = 0;
 	init_forks(table);
 	init_data(table);
-	while (i < table->numbers)
-	{
-		pthread_create(&table->philo[i].philosopher, NULL,
-			routine, &table->philo[i]);
-		usleep (100);
-		i++;
-	}
+	if (create_thread(table))
+		return ;
 	pthread_create(&monitor, NULL, r_routine, table);
 	pthread_join(monitor, NULL);
-	i = 0;
-	while (i < table->numbers)
-	{
-		pthread_join(table->philo[i].philosopher, NULL);
-		i++;
-	}
+	if (join_thread(table))
+		return ;
 	free_fun(table);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: mdarawsh <mdarawsh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 06:20:14 by mdarawsh          #+#    #+#             */
-/*   Updated: 2025/02/17 16:45:03 by mdarawsh         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:03:45 by mdarawsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ void	ft_eat(t_philosopher *philo);
 void	free_fun(t_table *table);
 void	ft_sleep(t_philosopher *philo);
 void	*r_routine(void *args);
+void	*routine(void *arg);
 int		exit_routine(t_table *table, int l);
 void	ft_usleep(long long start_time, long long duration_ms, t_table *table);
+int		create_thread(t_table *table);
+int		join_thread(t_table *table);
 
 #endif
